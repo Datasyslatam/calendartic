@@ -1,0 +1,109 @@
+{% extends 'layouts/base_dashboard.html' %}
+{% load static %}
+
+{% block content %}
+<body>
+    <header>
+    </header>
+    <main class="profile-container">
+        <section class="profile-header">
+            <h2>    Hola, {{ user.username }}!</h2>
+            <div class="user-image-wrapper">
+                {% if perfil_imagen %}
+                    <!-- Mostrar la imagen de perfil -->
+                    <img src="{{ perfil_imagen }}" alt="Imagen de perfil" class="user-image">
+                {% else %}
+                    <!-- Mostrar una imagen predeterminada si no hay imagen -->
+                    <img src="{% static 'img/default-avatar.png' %}" alt="Imagen predeterminada" class="user-image">
+                {% endif %}
+            </div>
+        </section>
+        </section>
+        <section class="account-info">
+            <div class="user-account">
+                <h3>Mi perfil</h3>
+                <div class="user-info-grid">
+                    <div class="user-info-item">
+                        <label>Username</label>
+                        <input type="text" value="{{ user.username }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>Email address</label>
+                        <input type="email" value="{{ user.email }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>Nombre</label>
+                        <input type="text" value="{{ user.first_name }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>Apellido</label>
+                        <input type="text" value="{{ user.last_name }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>Rol</label>
+                        <input type="text" value="{{ user.group }}" disabled>
+                    </div>
+                    <div class="user-info-item">
+                        <label>Telefono</label>
+                        <input type="text" value="{{ user.telefono }}" disabled>
+                    </div>
+                    <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_edit' user.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"> Editar Usuario
+                    </a>
+                    <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ user.id }}" data-url="{% url 'usuario_changePassword' user.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"> Cambiar Contraseña
+                    </a>
+                    <a href="#" class="upload-profile btn btn-outline-info btn-sm" data-id="{{ user.id }}" data-url="{% url 'profile_upload' user.id %}" data-bs-toggle="modal" data-bs-target="#uploadProfileModal"> Cargar Imagen
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="modalContainer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalContainer = document.getElementById('modalContainer');
+            let currentModal = null;
+            $('#dataTable').DataTable();
+
+            function loadModal(url, targetId) {
+                if (currentModal) {
+                    currentModal.hide();
+                    currentModal.dispose();
+                    currentModal = null;
+                }
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        modalContainer.innerHTML = html;
+                        const modalElement = document.getElementById(targetId);
+                        if (modalElement) {
+                            setTimeout(() => {
+                                currentModal = new bootstrap.Modal(modalElement);
+                                currentModal.show();
+
+                                if (targetId.includes('Usuario')) {
+                                    initDatepicker();
+                                }
+                            }, 0);
+                        } else {
+                            console.error(`Modal element with id ${targetId} not found`);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Event delegation para los botones de cambiar contraseña, editar, detalles y eliminar
+            document.body.addEventListener('click', function(e) {
+                const link = e.target.closest('.edit-usuario, .detail-usuario, .deleate-usuario, .upload-profile');
+                if (link) {
+                    e.preventDefault();
+                    const url = link.getAttribute('data-url');
+                    const targetId = link.getAttribute('data-bs-target').slice(1);
+                    console.log(`Loading modal: URL=${url}, targetId=${targetId}`);
+                    loadModal(url, targetId);
+                }
+            });
+        });
+    </script>
+</body>
+{% endblock %}

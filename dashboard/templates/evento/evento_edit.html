@@ -1,0 +1,46 @@
+<div class="modal fade" id="editEventoModal" tabindex="-1" aria-labelledby="editEventoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEventoModalLabel">Editar Evento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'evento_edit' evento.id %}" method="POST">
+          {% csrf_token %}
+          
+          <div class="mb-3">
+              <label for="titulo" class="form-label">Título</label>
+              {{ formulario.titulo }}
+          </div>
+          <div class="mb-3">
+              <label for="descripcion" class="form-label">Descripción</label>
+              {{ formulario.descripcion}}
+          </div>
+          <div class="mb-3">
+              <label for="info_extra" class="form-label">Info Extra</label>
+              {{ formulario.info_extra }}
+          </div>
+          <div class="mb-3">
+              <label for="inicia_el" class="form-label">Comienza</label>
+              {{ formulario.inicia_el}}
+          </div>
+          
+          <div class="mb-3">
+              <label for="termina_el" class="form-label">Termina</label>
+              {{ formulario.termina_el}}
+          </div>
+          <div class="mb-3">
+            <label for="id_etiqueta" class="form-label">Etiqueta</label>
+            {{ formulario.etiqueta }}
+          </div>
+          <div class="mb-3">
+            <label for="id_etiqueta" class="form-label">Notificar?</label>
+            {{ formulario.notificar }}
+          </div>
+          <button type="submit" class="btn btn-primary" id="editLink">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

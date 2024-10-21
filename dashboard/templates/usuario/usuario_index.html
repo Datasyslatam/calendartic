@@ -1,0 +1,107 @@
+{% extends 'layouts/base_dashboard.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-light rounded h-100 p-4" style="font-family: 'Work Sans', sans-serif; max-width: 100%; margin: auto;">
+  <h4 class="mb-4" style="color: #39a900;">Usuarios</h4> 
+  <a href="{% url 'usuario_create' %}" style="color: #39a900" class="mt-4 d-flex justify-content-end">Crear usuario</a>
+  <table class="table table-striped table-hover text-center" id="dataTable" style="background-color: white; border-radius: 10px; overflow: hidden;">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre Usuario</th>
+        <th scope="col">Se registró</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">Email</th>
+        <th scope="col">Teléfono</th>
+        {% if is_admin  %}
+          <th scope="col">Acciones</th>
+        {% elif is_collaborator %}
+          <th></th>
+        {% elif is_collaborator %}
+          <th></th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for usuario in usuarios  %}
+      
+      <tr>
+        <th>{{ usuario.id }}</th>
+        <td>{{ usuario.username }}</td>
+        <td>{{ usuario.date_joined }}</td>
+        <td>{{ usuario.first_name }}</td>
+        <td>{{ usuario.last_name }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.telefono }}</td>
+        {% if is_admin %}
+          <td>
+            <a href="#" class="edit-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_edit' usuario.id %}" data-bs-toggle="modal" data-bs-target="#editUsuarioModal"><i class="fa-solid fa-pen"></i></a>
+            <a href="#" class="detail-usuario btn btn-outline-info btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_detail' usuario.id %}" data-bs-toggle="modal" data-bs-target="#detailUsuarioModal"><i class="fa-solid fa-plus"></i></a>
+            <a href="#" class="deleate-usuario btn btn-outline-warning btn-sm" data-id="{{ usuario.id }}" data-url="{% url 'usuario_changePassword' usuario.id %}" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fa-solid fa-unlock-keyhole"></i></a>
+            <a href="{% url 'usuario_delete' usuario.id %}" class="delete-usuario btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+          </td>
+        {% elif is_collaborator %}
+          <td></td>
+        {% elif is_assistant %}
+          <td></td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div id="modalContainer"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modalContainer = document.getElementById('modalContainer');
+    let currentModal = null;
+    $('#dataTable').DataTable();
+
+    function loadModal(url, targetId) {
+        if (currentModal) {
+            currentModal.hide();
+            currentModal.dispose();
+            currentModal = null;
+        }
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalContainer.innerHTML = html;
+                const modalElement = document.getElementById(targetId);
+                if (modalElement) {
+                    setTimeout(() => {
+                        currentModal = new bootstrap.Modal(modalElement);
+                        currentModal.show();
+                        
+                        if (targetId.includes('Usuario')) {
+                            initDatepicker();
+                        }
+                    }, 0);
+                } else {
+                    console.error(`Modal element with id ${targetId} not found`);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Event delegation para los botones de cambiar contraseña, editar, detalles y eliminar
+    document.body.addEventListener('click', function(e) {
+        const link = e.target.closest('.edit-usuario, .detail-usuario, .deleate-usuario');
+        if (link) {
+            e.preventDefault();
+            const url = link.getAttribute('data-url');
+            const targetId = link.getAttribute('data-bs-target').slice(1);
+            console.log(`Loading modal: URL=${url}, targetId=${targetId}`);
+            loadModal(url, targetId);
+        }
+    });
+});
+
+</script>
+
+{% endblock %}
+

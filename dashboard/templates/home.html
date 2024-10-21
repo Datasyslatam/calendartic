@@ -1,0 +1,124 @@
+{% extends 'layouts/base_dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+            <i class="fa-solid fa-calendar-check fa-3x text-primary"></i>
+              <div class="ms-3">
+                  <p class="mb-2">Evento agendado</p>
+                  <h6 class="mb-0"></h6>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+            <i class="fa-solid fa-clock fa-3x text-primary"></i>
+              <div class="ms-3">
+                  <p class="mb-2">Evento Pronto a Comenzar</p>
+                  <h6 class="mb-0"></h6>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+               <i class="fa-solid fa-calendar-plus fa-3x text-primary"></i>
+              <div class="ms-3">
+                  <p class="mb-2">Próximo Evento</p>
+                  <h6 class="mb-0"></h6>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+            <i class="fa-solid fa-calendar-plus fa-3x text-primary"></i>
+              <div class="ms-3">
+                  <p class="mb-2">Próximo Evento</p>
+                  <h6 class="mb-0"></h6>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Sale & Revenue End -->
+
+<!-- Sales Chart Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+      <div class="col-sm-12 col-xl-6">
+          <div class="bg-light text-center rounded p-4">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                  <h6 class="mb-0">Historial de Eventos</h6>
+                  <a href="">Mostrar Todo</a>
+                  
+              </div>
+              <canvas id="worldwide-sales"></canvas>
+          </div>
+      </div>
+      <div class="col-sm-12 col-xl-6">
+          <div class="bg-light text-center rounded p-4">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                  <h6 class="mb-0">Eventos Programados</h6>
+                  <a href="">Mostrar Todo</a>
+              </div>
+              <canvas id="salse-revenue"></canvas>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Sales Chart End -->
+
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="bg-light text-center rounded p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="mb-0">Eventos Recientes</h6>
+          <a href="">Mostrar Todo</a>
+      </div>
+      <div class="table-responsive">
+          <table class="table text-start align-middle table-bordered table-hover mb-0">
+              <thead>
+                  <tr class="text-dark">
+                      <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                      <th scope="col">Día</th>
+                      <th scope="col">Ambiente</th>
+                      <th scope="col">Encargado</th>
+                      <th scope="col">Fichas</th>
+                      <th scope="col">Estado</th>
+                      <th scope="col">Acción</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td><input class="form-check-input" type="checkbox"></td>
+                      <td>01 Junio 2024</td>
+                      <td>Fabrica TIC</td>
+                      <td>Instructor Fabian Florian</td>
+                      <td>ADSO-10</td>
+                      <td>Finalizado</td>
+                      <td><a class="btn btn-sm btn-primary" href="">Editar</a></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+<!-- Recent Sales End -->
+
+<!-- Footer Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="bg-light rounded-top p-4">
+      <div class="row">
+          <div class="col-12 col-sm-6 text-center text-sm-start">
+              &copy; <a href="#">SENA</a>, All Right Reserved. 
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
+</div>
+{% endblock %}

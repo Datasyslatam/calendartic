@@ -1,0 +1,135 @@
+{% extends 'layouts/base_dashboard.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h6 class="mb-4">Crear Usuario</h6>
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <form action="{% url 'usuario_create' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ formulario.username.id_for_label }}">Nombre Usuario</label>
+            {{ formulario.username }}
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="{{ formulario.password1.id_for_label }}">Contraseña</label>
+                {{ formulario.password1 }}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="{{ formulario.password2.id_for_label }}">Confirmar contraseña</label>
+                {{ formulario.password2 }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="{{ formulario.first_name.id_for_label }}">Nombres</label>
+                {{ formulario.first_name }}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="{{ formulario.last_name.id_for_label }}">Apellidos</label>
+                {{ formulario.last_name }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ formulario.email.id_for_label }}">Email</label>
+            {{ formulario.email }}
+        </div>
+        <div class="form-group">
+            <label for="{{ formulario.telefono.id_for_label }}">Telefono</label>
+            {{ formulario.telefono }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ formulario.imagen.id_for_label }}">Rol</label>
+            {{ formulario.group }}
+        </div>
+        {% if error %}
+            <div id="emailHelp" class="form-text">{{ error }}</div>
+        {% endif %}
+        <br>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'usuario' %}" id="eliminarLink">Cancelar</a>
+    </form>
+</div>
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-container h6 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-row {
+        display: flex;
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .form-row > .form-group {
+        padding-left: 10px;
+        padding-right: 10px;
+        flex: 1;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #666;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        color: #333;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .btn-primary .btn-secondary {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #28a745;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #218838;
+    }
+    .btn-secundary:hover {
+       background-color: #218838;
+    }
+</style>
+{% endblock %}

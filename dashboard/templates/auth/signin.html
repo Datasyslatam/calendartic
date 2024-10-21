@@ -1,0 +1,44 @@
+{% extends 'layouts/base_auth_signin.html' %}
+{% load static %}
+
+{% block content %}
+<!-- <a href="/dashboard/auth/signup/">Crea tu cuenta aqui</a>
+<form action="/dashboard/auth/signin/" method="POST">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <button>
+        iniciar sesion
+    </button>
+</form> -->
+<div class="flex-auto p-6">
+    <form action="/dashboard/auth/signin/" method="POST">
+        {% csrf_token %}
+        <div class="form-floating mb-3">
+            <!-- <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"> -->
+            {{ formulario.username }}
+            <label for="floatingInput">Nombre de usuario</label>
+        </div>
+        <div class="form-floating mb-4">
+            <!-- <input type="password" class="form-control" id="floatingPassword" placeholder="Password"> -->
+            {{ formulario.password }}
+            <label for="floatingPassword">Contraseña</label>
+        </div>
+        <!-- <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <a href="">Forgot Password</a>
+        </div> -->
+        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Iniciar sesión</button>
+        
+        {% if error %}
+        <div class="text-center mb-0">
+            {{ error }}
+        </div>
+        {% endif %}
+        <p class="text-center mb-0">No tienes una cuenta? <a href="{% url 'signup' %}">Registrate</a></p>
+        
+    </form>
+</div>
+{% endblock %}
